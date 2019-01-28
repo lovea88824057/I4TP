@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Maschine Page{% endblock %}
+
+{% block css %}
+
+<!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'plugins/datatables/dataTables.bootstrap.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Maschine List
+        <small>assets list</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> homepage</a></li>
+        <li class="active">Maschine List</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+    <div class="col-xs-12">
+
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Machine List</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="maschines_table" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Order</th>
+              <th>Machine</th>
+              <th>Sub Product</th>
+              <th>Machine ability</th>
+              <th>Machine component </th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for maschine in maschines %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  {% if maschine.maschine_text == 'DMU_65' %}
+                      <td class="text-green text-bold">{{ maschine.maschine_text }}</td>
+                  {% elif maschine.maschine_text == 'EMAG(VL2)' %}
+                      <td class="text-yellow text-bold">{{ maschine.maschine_text }}</td>
+                  {% endif %}
+
+                  <td>{{ maschine.product }}</td>
+
+                  <td>{{ maschine.maschine_ability }}</td>
+                  <td>{{ maschine.maschine_component }}</td>
+                  <td>{{ product.pub_date|date:"Y/m/d [H:m:s]" }}</td>
+                </tr>
+                {% empty %}
+                  <tr>No data！</tr>
+                {% endfor %}
+
+            </tbody>
+            <tfoot>
+            <tr>
+              <th>Order</th>
+              <th>Machine</th>
+              <th>Sub Product</th>
+              <th>Machine ability</th>
+              <th>Machine component </th>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    </section>
+
+{% endblock %}
+
+{% block script %}
+    <!-- DataTables -->
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/dataTables.bootstrap.min.js' %}"></script>
+    <!-- SlimScroll -->
+    <script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static 'plugins/fastclick/fastclick.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/app.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'dist/js/demo.js' %}"></script>
+    <!-- page script -->
+    <script>
+      $(function () {
+        $('#assets_table').DataTable({
+          "paging": true,       <!-- 允许分页 -->
+          "lengthChange": true, <!-- 允许改变每页显示的行数 -->
+          "searching": true,    <!-- 允许内容搜索 -->
+          "ordering": true,     <!-- 允许排序 -->
+          "info": true,         <!-- 显示信息 -->
+          "autoWidth": false    <!-- 固定宽度 -->
+        });
+      });
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Maschine Page</title>#}
+{#</head>#}
+{#<body>#}
+{#<h1>#}
+{#     Product list#}
+{#</h1>#}
+{#{% for product in products %}#}
+{#    <a href="{% url 'blog:product_page' product.id%}">{{ product.product_text }}</a>#}
+{#    <br/>#}
+{#{% endfor %}#}
+{#<h1>#}
+{#     Maschine list#}
+{#</h1>#}
+{#{% for maschine in maschines %}#}
+{#    <a href="{% url 'blog:maschine_page' maschine.id%}">{{ maschine.maschine_text }}</a>#}
+{#    <br/>#}
+{#{% endfor %}#}
+{##}
+{#</body>#}

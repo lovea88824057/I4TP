@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Product Page{% endblock %}
+
+{% block css %}
+
+<!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'plugins/datatables/dataTables.bootstrap.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Productlist
+        <small>assets list</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> homepage</a></li>
+        <li class="active">Product List</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+    <div class="col-xs-12">
+
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Product List<small></small></h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="products_table" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Order</th>
+              <th>Product</th>
+              <th>SN</th>
+              <th>OEE(%)</th>
+              <th>Productiontime</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for product in products %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  {% if product.product_text == 'Valve' %}
+                      <td class="text-blue text-bold">{{ product.product_text }}</td>
+                  {% elif product.product_text%}
+                      <td>{{ product.product_text }}</td>
+                  {% endif %}
+                  <td>{{ product.sn }}</td>
+                  {% if  product.oee >= 90 %}
+                      <td><label class="label label-success"> {{ product.oee }}</label></td>
+                  {% elif  product.oee >= 60 %}
+                      <td><label class="label label-warning"> {{ product.oee }}</label></td>
+                  {% elif  product.oee >= 0 %}
+                      <td><label class="label label-danger"> {{ product.oee }}</label></td>
+                  {% endif %}
+                  <td>{{ product.pub_date|date:"Y/m/d [H:m:s]" }}</td>
+                </tr>
+                {% empty %}
+                  <tr>No data！</tr>
+                {% endfor %}
+
+            </tbody>
+            <tfoot>
+            <tr>
+              <th>Order</th>
+              <th>Product</th>
+              <th>SN</th>
+              <th>OEE(%)</th>
+              <th>Productiontime</th>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    </section>
+
+{% endblock %}
+
+{% block script %}
+    <!-- DataTables -->
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/dataTables.bootstrap.min.js' %}"></script>
+    <!-- SlimScroll -->
+    <script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static 'plugins/fastclick/fastclick.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/app.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'dist/js/demo.js' %}"></script>
+    <!-- page script -->
+    <script>
+      $(function () {
+        $('#assets_table').DataTable({
+          "paging": true,       <!-- 允许分页 -->
+          "lengthChange": true, <!-- 允许改变每页显示的行数 -->
+          "searching": true,    <!-- 允许内容搜索 -->
+          "ordering": true,     <!-- 允许排序 -->
+          "info": true,         <!-- 显示信息 -->
+          "autoWidth": false    <!-- 固定宽度 -->
+        });
+      });
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+{#first try code#}
+{#{% extends "base.html" %}#}
+{#{% block content %}#}
+{#<h2>#}
+{#     Product list#}
+{#</h2>#}
+{#    {% for product in products %}#}
+{#    <a href="{% url 'blog:product_page' product.id%}">{{ product.product_text }}</a>#}
+{#    <br/>#}
+{#    {% endfor %}#}
+{#{% endblock %}#}
+
